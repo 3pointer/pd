@@ -1249,10 +1249,6 @@ var tsoReqPool = sync.Pool{
 
 // GetAllocID gets the alloc ID from PD.
 func (c *client) GetAllocID(ctx context.Context) (uint64, error) {
-	if span := opentracing.SpanFromContext(ctx); span != nil {
-		span = opentracing.StartSpan("pdclient.GetAllocID", opentracing.ChildOf(span.Context()))
-		defer span.Finish()
-	}
 	ctx, cancel := context.WithTimeout(ctx, c.option.timeout)
 
 	req := &pdpb.AllocIDRequest{
